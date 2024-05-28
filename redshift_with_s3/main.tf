@@ -85,6 +85,13 @@ resource "aws_redshift_cluster" "prod_redshift_cluster" {
   iam_roles                    = [aws_iam_role.redshift_s3_readonly.arn]
   vpc_security_group_ids       = [aws_security_group.prod_redshift_sg.id]
   skip_final_snapshot          = true
+
+  tags = {
+    Environment = "Production"
+    Team        = "Data Analytics"
+    Project     = "Andromeda Insights"
+    ManagedBy   = "DBOPs Team"
+  }
 }
 
 resource "aws_redshift_subnet_group" "prod_subnet_group" {
@@ -116,7 +123,7 @@ resource "aws_iam_role" "redshift_s3_readonly" {
 }
 
 resource "aws_iam_policy" "s3_read_only" {
-  name   = "S3ReadOnlyAccess"
+  name = "S3ReadOnlyAccess"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -125,7 +132,7 @@ resource "aws_iam_policy" "s3_read_only" {
           "s3:Get*",
           "s3:List*"
         ],
-        Effect = "Allow",
+        Effect   = "Allow",
         Resource = "*"
       },
     ]
