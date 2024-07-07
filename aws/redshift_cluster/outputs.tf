@@ -25,8 +25,3 @@ output "redshift_cluster_vpc_security_group_ids" {
   description = "VPC security group IDs associated with the Redshift cluster"
   value       = aws_redshift_cluster.prod_redshift_cluster.vpc_security_group_ids
 }
-
-output "iam_role_arn" {
-  description = "The ARN of the IAM role used by Redshift to access other AWS services"
-  value       = aws_iam_role.redshift_s3_readonly.arn
-}

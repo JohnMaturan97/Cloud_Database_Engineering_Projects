@@ -82,7 +82,6 @@ resource "aws_redshift_cluster" "prod_redshift_cluster" {
   publicly_accessible          = true
   cluster_parameter_group_name = aws_redshift_parameter_group.prod_parameter_group.name
   cluster_subnet_group_name    = aws_redshift_subnet_group.prod_subnet_group.name
-  iam_roles                    = [aws_iam_role.redshift_s3_readonly.arn]
   vpc_security_group_ids       = [aws_security_group.prod_redshift_sg.id]
   skip_final_snapshot          = true
 
@@ -103,43 +102,4 @@ resource "aws_redshift_subnet_group" "prod_subnet_group" {
   tags = {
     Name = "ProdRedshiftSubnetGroup"
   }
-}
-
-resource "aws_iam_role" "redshift_s3_readonly" {
-  name = "redshift_s3_readonly"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "redshift.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_policy" "s3_read_only" {
-  name = "S3ReadOnlyAccess"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "s3:Get*",
-          "s3:List*"
-        ],
-        Effect   = "Allow",
-        Resource = "*"
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "s3_read_only_attachment" {
-  role       = aws_iam_role.redshift_s3_readonly.name
-  policy_arn = aws_iam_policy.s3_read_only.arn
 }
