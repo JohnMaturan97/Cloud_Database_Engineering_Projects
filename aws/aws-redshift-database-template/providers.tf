@@ -2,20 +2,22 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 3.0"
     }
   }
-  cloud {
-    organization = "Andromeda101"
+
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "jm97"
 
     workspaces {
-      name = "aws-andromeda-slvr"
+      name = "aws-andromeda-jm97-slvr"
     }
   }
 }
 
 provider "aws" {
-  region     = "us-east-1"
+  region     = var.aws_region
   access_key = var.Access_Key_ID
   secret_key = var.Secret_Access_Key
 }
