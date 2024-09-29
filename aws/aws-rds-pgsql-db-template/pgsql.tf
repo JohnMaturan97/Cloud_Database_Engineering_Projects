@@ -1,5 +1,5 @@
 locals {
-  serial_number = "02"
+  serial_number = "01"
 }
 
 
@@ -79,7 +79,7 @@ resource "aws_db_instance" "postgres_rds_instance" {
   name                    = var.database_name
   username                = var.master_username
   password                = var.master_password
-  parameter_group_name    = aws_db_parameter_group.aapsql_apm1234567_prdcl01_param_group.name
+  parameter_group_name    = aws_db_parameter_group.pgsql_db_param_group.name
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids  = [module.aredsft-security.security_group_id]
   skip_final_snapshot     = true
