@@ -1,4 +1,4 @@
-resource "aws_db_parameter_group" "db_param_group" {
+resource "aws_db_parameter_group" "pgsql_db_param_group" {
   name        = "aapsql-apm1234567-prdcl01-param-group"
   family      = "postgres14"
   description = "Custom parameter group for PostgreSQL"
@@ -32,12 +32,6 @@ resource "aws_db_parameter_group" "db_param_group" {
   parameter {
     name  = "pgaudit.role"
     value = "rds_pgaudit"
-  }
-
-  parameter {
-    name         = "shared_preload_libraries"
-    value        = "pgaudit, pg_stat_statements"
-    apply_method = "pending-reboot"
   }
 
   parameter {
